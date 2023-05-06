@@ -12,7 +12,7 @@ ChadPepe es una moneda ERC20 desarrollada en la cadena de bloques Ethereum.
 
 ChadPepe y ChadPepeCrowdsale se pueden desplegar en la red de Ethereum utilizando Truffle. Para desplegar los contratos, sigue estos pasos:
 
-1. Clona este repositorio: `git clone https://github.com/TU_USUARIO/chadpepe.git`
+1. Clona este repositorio: `git clone https://github.com/kmikodev/ChadPepeCoin.git`
 2. Instala las dependencias: `npm install`
 3. Configura tus variables de entorno creando un archivo `.env` con las siguientes variables:
 

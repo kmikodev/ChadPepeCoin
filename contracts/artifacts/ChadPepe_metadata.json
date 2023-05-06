@@ -1046,38 +1046,6 @@
 				"dweb:/ipfs/QmXRUpywAqNwAfXS89vrtiE2THRM9dX9pQ4QxAkV1Wx9kt"
 			]
 		},
-		"@openzeppelin/contracts/access/Ownable.sol": {
-			"keccak256": "0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2",
-				"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y"
-			]
-		},
-		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
-			"keccak256": "0x190dd6f8d592b7e4e930feb7f4313aeb8e1c4ad3154c27ce1cf6a512fc30d8cc",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://4ce8dfb62d0c4fa260d6eec8f1cd47f5f2a044e11bde5b31d18072fa6e7d9010",
-				"dweb:/ipfs/QmTyFztU3tLEcEDnqqiaW4UJetqsU77LXc6pjc9oTXCK5u"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-			"keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34",
-				"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
-			]
-		},
-		"@openzeppelin/contracts/utils/Context.sol": {
-			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
-				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
-			]
-		},
 		"@openzeppelin/contracts/utils/math/SafeMath.sol": {
 			"keccak256": "0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e",
 			"license": "MIT",
@@ -1087,11 +1055,11 @@
 			]
 		},
 		"contracts/ChadPepe.sol": {
-			"keccak256": "0xc0d5ad8d3200491f86631e697ee7f8545c0a833efdf4d813323e2c791df6b95e",
+			"keccak256": "0x9431a4b1379b42e0638ba136e60ab444489921b4b70fe4e52c0662e7ca7208cc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2e105e2ccbd75eb7b8b24eb27fa78434df51df1ad7b7f3045acc2a817390c9e7",
-				"dweb:/ipfs/QmfCG6faWTMa86gpBvBtL7mJfoMLETWm8ZwqV96mqgPk9d"
+				"bzz-raw://2efaf4a1a8c1e865ace3657bc1ab65285627f34b47fea96898da124f66e66beb",
+				"dweb:/ipfs/QmRV6So6K4ht4ZVc9R5qZ4QbuD5R7W4N8nm8eJYFgFnFji"
 			]
 		},
 		"https://github.com/Uniswap/v2-core/blob/master/contracts/interfaces/IUniswapV2Factory.sol": {

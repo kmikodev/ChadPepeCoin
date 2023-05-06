@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
@@ -78,141 +75,67 @@ contract ChadPepe is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
         require(newBurnRate <= MAXIMUM_TAX_RATE, "ChadPepe: Burn rate too high");
         _burnRate = newBurnRate;
     }
-function mint(address to, uint256 amount) public onlyOwner {
-    _mint(to, amount);
-}
-
-function pause() public onlyOwner {
-    _pause();
-}
-
-function unpause() public onlyOwner {
-    _unpause();
-}
-
-function _beforeTokenTransfer(address from, address to, uint256 amount)
-    internal
-    whenNotPaused
-    override(ERC20Upgradeable, ERC20SnapshotUpgradeable)
-{
-    super._beforeTokenTransfer(from, to, amount);
-}
-
-function _transfer(
-    address sender,
-    address recipient,
-    uint256 amount
-) internal override whenNotPaused {
-    require(amount <= maxTransferAmount, "ChadPepe: Transfer amount exceeds the max allowed");
-    require(amount >= minTransferAmount, "ChadPepe: Transfer amount is below the min allowed");
-
-    uint256 taxAmount = amount.mul(_taxRate).div(10000);
-    uint256 burnAmount = amount.mul(_burnRate).div(10000);
-    uint256 netAmount = amount.sub(taxAmount).sub(burnAmount);
-
-    super._transfer(sender, recipient, netAmount);
-    super._transfer(sender, address(0), burnAmount); // quemar tokens
-    super._transfer(sender, owner(), taxAmount); // enviar tokens al propietario (podría ser un contrato de recompensas, por ejemplo)
-}
-
-function _authorizeUpgrade(address newImplementation)
-    internal
-    onlyOwner
-    override
-{}
-
-function addLiquidity(
-    uint256 tokenAmount,
-    uint256 ethAmount,
-    uint256 minTokens,
-    uint256 minEth,
-    address to,
-    uint256 deadline
-) external onlyOwner {
-    approve(address(uniswapV2Router), tokenAmount);
-
-    uniswapV2Router.addLiquidityETH{value: ethAmount}(
-        address(this),
-        tokenAmount,
-        minTokens,
-        minEth,
-        to,
-        deadline
-    );
-}
-
-}
-
-
-contract ChadPepeCrowdsale is Ownable, ReentrancyGuard {
-    using SafeMath for uint256;
-
-    IERC20 public token;
-    uint256 public rate;
-    uint256 public weiRaised;
-
-    event TokensPurchased(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
-
-    constructor(uint256 _rate, address _tokenAddress) {
-        require(_rate > 0, "ChadPepeCrowdsale: rate is 0");
-        require(_tokenAddress != address(0), "ChadPepeCrowdsale: token is the zero address");
-
-        rate = _rate;
-        token = IERC20(_tokenAddress);
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
     }
 
-    receive() external payable {
-        buyTokens(msg.sender);
+    function pause() public onlyOwner {
+        _pause();
     }
 
-    function buyTokens(address beneficiary) public nonReentrant payable {
-        uint256 weiAmount = msg.value;
-        _preValidatePurchase(beneficiary, weiAmount);
-
-        uint256 tokens = _getTokenAmount(weiAmount);
-
-        weiRaised = weiRaised.add(weiAmount);
-
-        _processPurchase(beneficiary, tokens);
-        emit TokensPurchased(msg.sender, beneficiary, weiAmount, tokens);
-
-        _updatePurchasingState(beneficiary, weiAmount);
-
-        _forwardFunds();
-        _postValidatePurchase(beneficiary, weiAmount);
+    function unpause() public onlyOwner {
+        _unpause();
     }
 
-    function _preValidatePurchase(address beneficiary, uint256 weiAmount) internal pure {
-        require(beneficiary != address(0), "ChadPepeCrowdsale: beneficiary is the zero address");
-        require(weiAmount != 0, "ChadPepeCrowdsale: weiAmount is 0");
+    function _beforeTokenTransfer(address from, address to, uint256 amount)
+        internal
+        whenNotPaused
+        override(ERC20Upgradeable, ERC20SnapshotUpgradeable)
+    {
+        super._beforeTokenTransfer(from, to, amount);
     }
 
-    function _postValidatePurchase(address beneficiary, uint256 weiAmount) internal pure {
-        // Can be overridden to add custom post-validation logic
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal override whenNotPaused {
+        require(amount <= maxTransferAmount, "ChadPepe: Transfer amount exceeds the max allowed");
+        require(amount >= minTransferAmount, "ChadPepe: Transfer amount is below the min allowed");
+
+        uint256 taxAmount = amount.mul(_taxRate).div(10000);
+        uint256 burnAmount = amount.mul(_burnRate).div(10000);
+        uint256 netAmount = amount.sub(taxAmount).sub(burnAmount);
+
+        super._transfer(sender, recipient, netAmount);
+        super._transfer(sender, address(0), burnAmount); // quemar tokens
+        super._transfer(sender, owner(), taxAmount); // enviar tokens al propietario (podría ser un contrato de recompensas, por ejemplo)
     }
 
-    function _deliverTokens(address beneficiary, uint256 tokenAmount) internal {
-        token.transferFrom(owner(), beneficiary, tokenAmount);
+    function _authorizeUpgrade(address newImplementation)
+        internal
+        onlyOwner
+        override
+    {}
+
+    function addLiquidity(
+        uint256 tokenAmount,
+        uint256 ethAmount,
+        uint256 minTokens,
+        uint256 minEth,
+        address to,
+        uint256 deadline
+    ) external onlyOwner {
+        approve(address(uniswapV2Router), tokenAmount);
+
+        uniswapV2Router.addLiquidityETH{value: ethAmount}(
+            address(this),
+            tokenAmount,
+            minTokens,
+            minEth,
+            to,
+            deadline
+        );
     }
 
-    function _processPurchase(address beneficiary, uint256 tokenAmount) internal {
-        _deliverTokens(beneficiary, tokenAmount);
-    }
-
-    function _updatePurchasingState(address beneficiary, uint256 weiAmount) internal {
-        // Can be overridden to add custom purchasing state update logic
-    }
-
-    function _getTokenAmount(uint256 weiAmount) internal view returns (uint256) {
-        return weiAmount.mul(rate);
-    }
-
-    function _forwardFunds() internal {
-        payable(owner()).transfer(msg.value);
-    }
-
-    function setRate(uint256 newRate) external onlyOwner {
-        require(newRate > 0, "ChadPepeCrowdsale: new rate is 0");
-        rate = newRate;
-    }
 }
